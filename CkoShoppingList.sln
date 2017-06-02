@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CkoShoppingList.Service", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CkoShoppingList.Service.Tests", "CkoShoppingList.Service.Tests\CkoShoppingList.Service.Tests.csproj", "{F5127F38-EA00-4F58-A895-02386B3279A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.ApiClient.Net45", "Checkout.ApiClient.Net45\Checkout.ApiClient.Net45.csproj", "{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.ApiClient.Net45.Tests", "Checkout.ApiClient.Tests\Checkout.ApiClient.Net45.Tests.csproj", "{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F5127F38-EA00-4F58-A895-02386B3279A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5127F38-EA00-4F58-A895-02386B3279A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5127F38-EA00-4F58-A895-02386B3279A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
