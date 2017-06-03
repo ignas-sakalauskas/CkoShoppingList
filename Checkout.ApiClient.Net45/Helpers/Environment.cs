@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Checkout.Helpers
+﻿namespace Checkout.Helpers
 {
     public enum Environment
     {
-        Undefined,Sandbox, Live
+        Undefined,
+        Sandbox,
+        Live,
+        ShoppingListTest
     }
 }

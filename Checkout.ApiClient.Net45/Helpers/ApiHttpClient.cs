@@ -219,7 +219,7 @@ namespace Checkout
 
         private HttpResponse<T> CreateHttpResponse<T>(string responseAsString, HttpStatusCode httpStatusCode)
         {
-            if (httpStatusCode == HttpStatusCode.OK && responseAsString != null)
+            if (IsSuccessCode(httpStatusCode) && responseAsString != null)
             {
                 return new HttpResponse<T>(GetResponseAsObject<T>(responseAsString))
                 {
@@ -248,5 +248,10 @@ namespace Checkout
             return ContentAdaptor.JsonStringToObject<T>(responseAsString);
         }
 
+        // TODO unit test
+        private bool IsSuccessCode(HttpStatusCode httpStatusCode)
+        {
+            return httpStatusCode == HttpStatusCode.OK || httpStatusCode == HttpStatusCode.Created;
+        }
     }
 }

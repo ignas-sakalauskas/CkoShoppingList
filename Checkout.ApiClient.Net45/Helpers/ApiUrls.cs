@@ -21,6 +21,9 @@
         private static string _customersApiUri;
         private static string _customerApiUri;
 
+        private static string _drinksApiUri;
+        private static string _drinkApiUri;
+
         private static string _cardsApiUri;
         private static string _cardApiUri;
 
@@ -54,6 +57,8 @@
             _chargeHistoryApiUri = null;
             _customersApiUri = null;
             _customerApiUri = null;
+            _drinksApiUri = null;
+            _drinkApiUri = null;
             _cardsApiUri = null;
             _cardApiUri = null;
             _reportingTransactionsUri = null;
@@ -132,6 +137,12 @@
 
         public static string Customer
             => _customerApiUri ?? (_customerApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}"));
+
+        public static string Drinks
+            => _drinksApiUri ?? (_drinksApiUri = string.Concat(AppSettings.BaseApiUri, "/drinks"));
+
+        public static string Drink
+            => _drinkApiUri ?? (_drinkApiUri = string.Concat(AppSettings.BaseApiUri, "/drink/{0}"));
 
         public static string Cards
             => _cardsApiUri ?? (_cardsApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards"));

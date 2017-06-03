@@ -97,7 +97,12 @@ namespace Checkout
                     case CheckoutEnvironment.Sandbox:
                         _baseApiUri = _sandboxUrl;
                         break;
-                };
+                        // Add third environment to keep existing functionality working, 
+                        // and enable API library for Shopping List testing
+                    case CheckoutEnvironment.ShoppingListTest:
+                        _baseApiUri = ReadConfig("Checkout.ShoppingListBaseApiUri", true);
+                        break;
+                }
                 _environment = value;
                 ApiUrls.ResetApiUrls();
 

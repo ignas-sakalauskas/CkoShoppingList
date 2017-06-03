@@ -63,6 +63,13 @@
     <Compile Include="ApiServices\Charges\ResponseModels\ChargeHistory.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\LocalPayment.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\Void.cs" />
+    <Compile Include="ApiServices\ShoppingList\ShoppingListService.cs" />
+    <Compile Include="ApiServices\ShoppingList\RequestModels\BaseDrink.cs" />
+    <Compile Include="ApiServices\ShoppingList\RequestModels\DrinkCreate.cs" />
+    <Compile Include="ApiServices\ShoppingList\RequestModels\DrinkGetList.cs" />
+    <Compile Include="ApiServices\ShoppingList\RequestModels\DrinkUpdate.cs" />
+    <Compile Include="ApiServices\ShoppingList\ResponseModels\Drink.cs" />
+    <Compile Include="ApiServices\ShoppingList\ResponseModels\DrinkList.cs" />
     <Compile Include="ApiServices\Customers\CustomerService.cs">
       <SubType>Code</SubType>
     </Compile>
