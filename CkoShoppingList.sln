@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.ApiClient.Net45.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CkoShoppingList.Client", "CkoShoppingList.Client\CkoShoppingList.Client.csproj", "{214268EE-A3FA-4FBB-9D2A-9624DDD8746E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CkoShoppingList.Identity", "CkoShoppingList.Identity\CkoShoppingList.Identity.csproj", "{8F81D27F-560B-4CE7-8D6B-BD80B119EF74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{214268EE-A3FA-4FBB-9D2A-9624DDD8746E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{214268EE-A3FA-4FBB-9D2A-9624DDD8746E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{214268EE-A3FA-4FBB-9D2A-9624DDD8746E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F81D27F-560B-4CE7-8D6B-BD80B119EF74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F81D27F-560B-4CE7-8D6B-BD80B119EF74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F81D27F-560B-4CE7-8D6B-BD80B119EF74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F81D27F-560B-4CE7-8D6B-BD80B119EF74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
