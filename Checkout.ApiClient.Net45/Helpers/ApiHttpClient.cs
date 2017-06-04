@@ -3,15 +3,12 @@ using Checkout.Helpers;
 using Checkout.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Checkout
 {
@@ -182,6 +179,10 @@ namespace Checkout
                 responseMessage = httpClient.SendAsync(request).Result; 
                
                 responseCode = responseMessage.StatusCode.ToString();
+                if (AppSettings.DebugMode)
+                {
+                    Console.WriteLine($"\n** HttpResponse - Status {responseCode}**\n ");
+                }
 
                 var responseContent = responseMessage.Content.ReadAsByteArrayAsync().Result;
 
@@ -191,7 +192,7 @@ namespace Checkout
 
                     if (AppSettings.DebugMode)
                     {
-                        Console.WriteLine(string.Format("\n** HttpResponse - Status {0}**\n {1}\n", responseMessage.StatusCode, responseAsString));
+                        Console.WriteLine($"\n** HttpResponse - Content:**\n {responseAsString}\n");
                     }
                 }
 
