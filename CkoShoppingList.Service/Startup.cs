@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using CkoShoppingList.Service.Models;
 using CkoShoppingList.Service.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -43,11 +47,25 @@ namespace CkoShoppingList.Service
                 c.SwaggerDoc("v1", new Info { Title = "Shopping List API", Version = "v1" });
             });
 
-            services.AddMvc();
+            // Make sure all requests are authenticated
+            services.AddMvc(setup =>
+            {
+                setup.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build()));
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
         {
+            var appSettings = serviceProvider.GetService<IOptions<AppSettings>>().Value;
+
+            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            {
+                Authority = appSettings.AuthorityUri.ToString(),
+                AllowedScopes = appSettings.Scopes.Split(','),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
+
             loggerFactory.AddConsole(_configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
