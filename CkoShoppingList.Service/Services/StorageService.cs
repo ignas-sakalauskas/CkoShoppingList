@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using CkoShoppingList.Service.Exceptions;
+using CkoShoppingList.Service.Models;
 
 namespace CkoShoppingList.Service.Services
 {
@@ -15,7 +16,7 @@ namespace CkoShoppingList.Service.Services
             _drinksDictionary = concurrentDictionary ?? throw new ArgumentNullException(nameof(concurrentDictionary));
         }
 
-        public IList<KeyValuePair<string, int>> GetDrinks()
+        public IList<KeyValuePair<string, int>> GetDrinks(ListFilterOptions filterOptions = null)
         {
             return _drinksDictionary.ToList();
         }

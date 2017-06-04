@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using CkoShoppingList.Service.Controllers.api;
 using CkoShoppingList.Service.Exceptions;
+using CkoShoppingList.Service.Models;
+using CkoShoppingList.Service.Models.Responses;
 using CkoShoppingList.Service.Services;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +56,7 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void Constructor_ShouldThrowArgumentNullException_WhenDataServiceIsNull()
+        public void Constructor_ShouldThrowArgumentNullException_WhenServiceIsNull()
         {
             // Arrange
             // Act
@@ -69,12 +71,13 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         public void Get_ShouldReturnBadResult_WhenExceptionIsThrown()
         {
             // Arrange
-            _storageServiceMock.Setup(x => x.GetDrinks())
+            var filterOptions = new ListFilterOptions();
+            _storageServiceMock.Setup(x => x.GetDrinks(It.Is<ListFilterOptions>(f => f == filterOptions)))
                 .Throws(new Exception("Exception"));
             var controller = new DrinksController(_storageServiceMock.Object, _loggerFactoryMock.Object);
 
             // Act
-            var result = controller.Get();
+            var result = controller.Get(filterOptions);
 
             // Assert
             result.Should().BeOfType<BadRequestObjectResult>()
@@ -84,24 +87,72 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void Get_ShouldReturnOkResult_WhenDataServiceReturnsListOfDrinks()
+        public void Get_ShouldReturnOkResult_WhenServiceReturnsEmptyListOfDrinks()
         {
             // Arrange
-            _storageServiceMock.Setup(x => x.GetDrinks())
-                .Returns(new List<KeyValuePair<string, int>>
-                {
-                    new KeyValuePair<string, int>()
-                });
+            var filterOptions = new ListFilterOptions();
+            _storageServiceMock.Setup(x => x.GetDrinks(It.Is<ListFilterOptions>(f => f == filterOptions)))
+                .Returns(new List<KeyValuePair<string, int>>());
 
             var controller = new DrinksController(_storageServiceMock.Object, _loggerFactoryMock.Object);
 
             // Act
-            var result = controller.Get();
+            var result = controller.Get(filterOptions);
 
             // Assert
             result.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeOfType<List<KeyValuePair<string, int>>>()
-                .Which.Should().HaveCount(1);
+                .Which.Value.Should().BeOfType<DrinksList>();
+            _storageServiceMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void Get_ShouldCountAndDataCountMatch_WhenServiceReturnsListOfDrinks()
+        {
+            // Arrange
+            var filterOptions = new ListFilterOptions();
+            var list = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>(), 
+                new KeyValuePair<string, int>()
+            };
+
+            _storageServiceMock.Setup(x => x.GetDrinks(It.Is<ListFilterOptions>(f => f == filterOptions)))
+                .Returns(list);
+
+            var controller = new DrinksController(_storageServiceMock.Object, _loggerFactoryMock.Object);
+
+            // Act
+            var result = controller.Get(filterOptions);
+            var objectResult = (DrinksList) ((OkObjectResult) result).Value;
+
+            // Assert
+            objectResult.Data.Should().HaveCount(2);
+            objectResult.Count.Should().Be(list.Count);
+            _storageServiceMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public void Get_ShouldServiceAndControllerResponsesReturnTheSameData_WhenServiceReturnsListOfDrinks()
+        {
+            // Arrange
+            var filterOptions = new ListFilterOptions();
+            var list = new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("test1", 1), 
+                new KeyValuePair<string, int>("test2", 2)
+            };
+
+            _storageServiceMock.Setup(x => x.GetDrinks(It.Is<ListFilterOptions>(f => f == filterOptions)))
+                .Returns(list);
+
+            var controller = new DrinksController(_storageServiceMock.Object, _loggerFactoryMock.Object);
+
+            // Act
+            var result = controller.Get(filterOptions);
+            var objectResult = (DrinksList) ((OkObjectResult) result).Value;
+
+            // Assert
+            objectResult.Data.ShouldBeEquivalentTo(list);
             _storageServiceMock.VerifyAll();
         }
 
@@ -162,7 +213,7 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void GetById_ShouldReturnOkResult_WhenDataServiceReturnsDrink()
+        public void GetById_ShouldReturnOkResult_WhenServiceReturnsDrink()
         {
             // Arrange
             const string name = "name";
@@ -235,7 +286,7 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void Post_ShouldReturnOkResult_WhenDataServiceReturnsAddedDrink()
+        public void Post_ShouldReturnOkResult_WhenServiceReturnsAddedDrink()
         {
             // Arrange
             var drink = new KeyValuePair<string, int>("name", 1);
@@ -329,7 +380,7 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void Put_ShouldReturnOkResult_WhenDataServiceReturnsUpdatedDrink()
+        public void Put_ShouldReturnOkResult_WhenServiceReturnsUpdatedDrink()
         {
             // Arrange
             const string name = "name";
@@ -405,7 +456,7 @@ namespace CkoShoppingList.Service.Tests.Controllers.api
         }
 
         [TestMethod]
-        public void Delete_ShouldReturnNoContent_WhenDataServiceCalled()
+        public void Delete_ShouldReturnNoContent_WhenServiceCalled()
         {
             // Arrange
             const string name = "name";

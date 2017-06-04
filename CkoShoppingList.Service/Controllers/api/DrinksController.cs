@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CkoShoppingList.Service.Exceptions;
+using CkoShoppingList.Service.Models;
+using CkoShoppingList.Service.Models.Responses;
 using CkoShoppingList.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,13 +22,18 @@ namespace CkoShoppingList.Service.Controllers.api
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(ListFilterOptions filterOptions)
         {
             try
             {
-                var drinks = _storageService.GetDrinks();
+                var drinks = _storageService.GetDrinks(filterOptions);
+                var responseModel = new DrinksList
+                {
+                    Count = drinks.Count,
+                    Data = drinks
+                };
 
-                return Ok(drinks);
+                return Ok(responseModel);
             }
             catch (Exception e)
             {
