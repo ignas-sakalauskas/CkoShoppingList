@@ -23,11 +23,9 @@ namespace CkoShoppingList.Client
                 Console.WriteLine("[INFO] Making GET request.");
                 var resp2 = ckoApiClient.ShoppingListService.GetDrinkList(new DrinkGetList());
 
-                // TODO fix
                 Console.WriteLine("[INFO] Making GET BY ID request.");
                 var resp3 = ckoApiClient.ShoppingListService.GetDrink("Coke");
 
-                // TODO fix
                 Console.WriteLine("[INFO] Making UPDATE request.");
                 var resp4 = ckoApiClient.ShoppingListService.UpdateDrink("Coke", new DrinkUpdate
                 {
@@ -35,7 +33,6 @@ namespace CkoShoppingList.Client
                     Quantity = 333
                 });
 
-                // TODO fix
                 Console.WriteLine("[INFO] Making DELETE request.");
                 var resp5 = ckoApiClient.ShoppingListService.DeleteDrink("Coke");
             }

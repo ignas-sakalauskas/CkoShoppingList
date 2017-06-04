@@ -1,8 +1,8 @@
-﻿using Checkout.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using CheckoutEnvironment = Checkout.Helpers.Environment;
+
 namespace Checkout
 {
     /// <summary>
@@ -19,6 +19,7 @@ namespace Checkout
         private static bool? _debugMode;
         private const string _liveUrl = "https://api2.checkout.com/v2";
         private const string _sandboxUrl = "https://sandbox.checkout.com/api2/v2";
+        private const string _shoppingListUrl = "http://localhost:5000/api";
         public const string ClientUserAgentName = "Checkout-DotNetLibraryClient/v1.0";
         public const string DefaultContentType = "application/json";
 
@@ -52,6 +53,16 @@ namespace Checkout
             }
             set { _requestTimeout = value; }
         }
+
+        public static string ShoppingListApiUrl
+        {
+            get
+            {
+                var configValue = ReadConfig("Checkout.ShoppingListBaseApiUri");
+                return string.IsNullOrEmpty(configValue) ? _shoppingListUrl : configValue;
+            }
+        }
+
         public static int MaxResponseContentBufferSize { 
             get { 
                 
@@ -100,7 +111,7 @@ namespace Checkout
                         // Add third environment to keep existing functionality working, 
                         // and enable API library for Shopping List testing
                     case CheckoutEnvironment.ShoppingListTest:
-                        _baseApiUri = ReadConfig("Checkout.ShoppingListBaseApiUri", true);
+                        _baseApiUri = ShoppingListApiUrl;
                         break;
                 }
                 _environment = value;

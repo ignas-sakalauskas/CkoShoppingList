@@ -7,7 +7,7 @@ using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.RequestModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Checkout.ApiServices.ShoppingList.RequestModels;
 using Tests.Utils;
 using FilterAction = Checkout.ApiServices.SharedModels.Action;
 
@@ -630,6 +630,19 @@ namespace Tests
         public static QueryRequest GetQueryRequest()
         {
             return GetQueryRequest(null);
+        }
+
+        #endregion
+
+        #region ShoppingList Helpers
+
+        public static DrinkCreate GetDrinkWithRandomNameCreateModel()
+        {
+            return new DrinkCreate
+            {
+                Name = Guid.NewGuid().ToString(),
+                Quantity = 11
+            };
         }
 
         #endregion

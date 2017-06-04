@@ -142,7 +142,7 @@
             => _drinksApiUri ?? (_drinksApiUri = string.Concat(AppSettings.BaseApiUri, "/drinks"));
 
         public static string Drink
-            => _drinkApiUri ?? (_drinkApiUri = string.Concat(AppSettings.BaseApiUri, "/drink/{0}"));
+            => _drinkApiUri ?? (_drinkApiUri = string.Concat(AppSettings.BaseApiUri, "/drinks/{0}"));
 
         public static string Cards
             => _cardsApiUri ?? (_cardsApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards"));

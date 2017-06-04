@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Checkout
 {
@@ -226,7 +227,16 @@ namespace Checkout
                     HttpStatusCode = httpStatusCode
                 };
             }
-            else if (responseAsString != null)
+            // TODO unit test
+            if (httpStatusCode == HttpStatusCode.NoContent)
+            {
+                return new HttpResponse<T>(default(T))
+                {
+                    HttpStatusCode = httpStatusCode
+                };
+            }
+
+            if (responseAsString != null)
             {
                 return new HttpResponse<T>(default(T))
                 {
@@ -249,9 +259,10 @@ namespace Checkout
         }
 
         // TODO unit test
-        private bool IsSuccessCode(HttpStatusCode httpStatusCode)
+        private static bool IsSuccessCode(HttpStatusCode httpStatusCode)
         {
-            return httpStatusCode == HttpStatusCode.OK || httpStatusCode == HttpStatusCode.Created;
+            return httpStatusCode == HttpStatusCode.OK 
+                || httpStatusCode == HttpStatusCode.Created;
         }
     }
 }

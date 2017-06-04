@@ -74,6 +74,7 @@
     <Compile Include="ChargeService\ChargeServiceTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ShoppingListService\ShoppingListServiceIntegrationTests.cs" />
     <Compile Include="CustomerService\CustomerServiceTests.cs">
       <SubType>Code</SubType>
     </Compile>
