@@ -227,7 +227,7 @@ namespace Checkout
                     HttpStatusCode = httpStatusCode
                 };
             }
-            // TODO unit test
+
             if (httpStatusCode == HttpStatusCode.NoContent)
             {
                 return new HttpResponse<T>(default(T))
@@ -258,7 +258,6 @@ namespace Checkout
             return ContentAdaptor.JsonStringToObject<T>(responseAsString);
         }
 
-        // TODO unit test
         private static bool IsSuccessCode(HttpStatusCode httpStatusCode)
         {
             return httpStatusCode == HttpStatusCode.OK 

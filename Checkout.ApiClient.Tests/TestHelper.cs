@@ -640,7 +640,7 @@ namespace Tests
         {
             return new DrinkCreate
             {
-                Name = Guid.NewGuid().ToString(),
+                Name = RandomData.String,
                 Quantity = 11
             };
         }
