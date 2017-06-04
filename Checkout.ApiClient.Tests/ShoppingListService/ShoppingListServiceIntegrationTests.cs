@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using Checkout;
 using Checkout.ApiServices.ShoppingList.RequestModels;
 using Checkout.Helpers;
@@ -71,6 +72,39 @@ namespace Tests
             response.Model.Count.Should().BeGreaterOrEqualTo(2);
             response.Model.Data.Should().Contain(d => d.Name == response1.Model.Name);
             response.Model.Data.Should().Contain(d => d.Name == response2.Model.Name);
+        }
+
+        [Test]
+        public void GetDrinkList_ShouldGetDifferentResultsInSubsequentCalls_WhenCountAndOffsetSet()
+        {
+            // Arrange
+            var request1 = new DrinkGetList
+            {
+                Count = 1,
+                Offset = 1
+            };
+
+            var request2 = new DrinkGetList
+            {
+                Count = 1,
+                Offset = 2
+            };
+
+            var requestModel1 = TestHelper.GetDrinkWithRandomNameCreateModel();
+            _checkoutClient.ShoppingListService.CreateDrink(requestModel1);
+            var requestModel2 = TestHelper.GetDrinkWithRandomNameCreateModel();
+            _checkoutClient.ShoppingListService.CreateDrink(requestModel2);
+
+            // Act
+            var response1 = _checkoutClient.ShoppingListService.GetDrinkList(request1);
+            var response2 = _checkoutClient.ShoppingListService.GetDrinkList(request2);
+
+            // Assert
+            response1.Should().NotBeNull();
+            response2.Should().NotBeNull();
+            response1.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response2.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response2.Model.Data.First().Name.Should().NotBe(response1.Model.Data.First().Name);
         }
 
         [Test]

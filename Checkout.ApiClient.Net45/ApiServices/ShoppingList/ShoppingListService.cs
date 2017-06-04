@@ -30,7 +30,6 @@ namespace Checkout.ApiServices.ShoppingList
             return new ApiHttpClient().GetRequest<Drink>(getDrinkUri, AppSettings.SecretKey);
         }
 
-        // TODO implement paginaton in service
         public HttpResponse<DrinkList> GetDrinkList(DrinkGetList request)
         {
             var getDrinkListUri = ApiUrls.Drinks;
@@ -43,16 +42,6 @@ namespace Checkout.ApiServices.ShoppingList
             if (request.Offset.HasValue)
             {
                 getDrinkListUri = UrlHelper.AddParameterToUrl(getDrinkListUri, "offset", request.Offset.ToString());
-            }
-
-            if (request.FromDate.HasValue)
-            {
-                getDrinkListUri = UrlHelper.AddParameterToUrl(getDrinkListUri, "fromDate", DateTimeHelper.FormatAsUtc(request.FromDate.Value));
-            }
-
-            if (request.ToDate.HasValue)
-            {
-                getDrinkListUri = UrlHelper.AddParameterToUrl(getDrinkListUri, "toDate", DateTimeHelper.FormatAsUtc(request.ToDate.Value));
             }
 
             return new ApiHttpClient().GetRequest<DrinkList>(getDrinkListUri, AppSettings.SecretKey);

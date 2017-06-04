@@ -18,7 +18,27 @@ namespace CkoShoppingList.Service.Services
 
         public IList<KeyValuePair<string, int>> GetDrinks(ListFilterOptions filterOptions = null)
         {
-            return _drinksDictionary.ToList();
+            var query = _drinksDictionary.AsQueryable();
+
+            // Always sort ASC by key for results consistency
+            query = query.OrderBy(a => a.Key);
+
+            if (filterOptions == null)
+            {
+                return query.ToList();
+            }
+
+            if (filterOptions.Offset.HasValue)
+            {
+                query = query.Skip(filterOptions.Offset.Value);
+            }
+
+            if (filterOptions.Count.HasValue)
+            {
+                query = query.Take(filterOptions.Count.Value);
+            }
+
+            return query.ToList();
         }
 
         public KeyValuePair<string, int> GetDrink(string name)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using CkoShoppingList.Service.Exceptions;
+using CkoShoppingList.Service.Models;
 using CkoShoppingList.Service.Services;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,18 +55,102 @@ namespace CkoShoppingList.Service.Tests.Services
         }
 
         [TestMethod]
-        public void GetDrinks_ShouldReturnTwoItems_WhenDictionaryHasTwoItems()
+        public void GetDrinks_ShouldReturnAllItems_WhenFilterIsNull()
         {
             // Arrange
-            _drinksDictionary.TryAdd("test1", 1);
-            _drinksDictionary.TryAdd("test2", 2);
+            AddSampleUnsortedDrinksToDictionary();
             var service = new StorageService(_drinksDictionary);
 
             // Act
             var result = service.GetDrinks();
 
             // Assert
-            result.Should().HaveCount(2);
+            result.Should().HaveCount(_drinksDictionary.Count);
+        }
+
+        [TestMethod]
+        public void GetDrinks_ShouldReturnItemsSortedAscByName_Always()
+        {
+            // Arrange
+            AddSampleUnsortedDrinksToDictionary();
+            var service = new StorageService(_drinksDictionary);
+
+            // Act
+            var result = service.GetDrinks();
+
+            // Assert
+            result.Should().BeEquivalentTo(_drinksDictionary.ToList().OrderBy(a => a.Key));
+        }
+
+        [TestMethod]
+        public void GetDrinks_ShouldSkipFirst2Items_WhenOffsetIsTwo()
+        {
+            // Arrange
+            AddSampleUnsortedDrinksToDictionary();
+            var filter = new ListFilterOptions
+            {
+                Offset = 2
+            };
+
+            var service = new StorageService(_drinksDictionary);
+
+            // Act
+            var result = service.GetDrinks(filter);
+             
+            // Assert
+            result.Should().BeEquivalentTo(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("test3", 3),
+                new KeyValuePair<string, int>("test4", 4)
+            });
+        }
+
+        [TestMethod]
+        public void GetDrinks_ShouldReturnThreeFirstItems_WhenCountIsThree()
+        {
+            // Arrange
+            AddSampleUnsortedDrinksToDictionary();
+            var filter = new ListFilterOptions
+            {
+                Count = 3
+            };
+
+            var service = new StorageService(_drinksDictionary);
+
+            // Act
+            var result = service.GetDrinks(filter);
+             
+            // Assert
+            result.Should().BeEquivalentTo(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("test1", 1),
+                new KeyValuePair<string, int>("test2", 2),
+                new KeyValuePair<string, int>("test3", 3)
+            });
+        }
+
+        [TestMethod]
+        public void GetDrinks_ShouldReturnTwoLastItems_WhenOffsetIsTwoAndCountIsTwo()
+        {
+            // Arrange
+            AddSampleUnsortedDrinksToDictionary();
+            var filter = new ListFilterOptions
+            {
+                Offset = 2,
+                Count = 2
+            };
+
+            var service = new StorageService(_drinksDictionary);
+
+            // Act
+            var result = service.GetDrinks(filter);
+             
+            // Assert
+            result.Should().BeEquivalentTo(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("test3", 3),
+                new KeyValuePair<string, int>("test4", 4)
+            });
         }
 
         [TestMethod]
@@ -188,6 +274,14 @@ namespace CkoShoppingList.Service.Tests.Services
 
             // Assert
             _drinksDictionary.Should().BeEmpty();
+        }
+
+        private void AddSampleUnsortedDrinksToDictionary()
+        {
+            _drinksDictionary.TryAdd("test1", 1);
+            _drinksDictionary.TryAdd("test4", 4);
+            _drinksDictionary.TryAdd("test3", 3);
+            _drinksDictionary.TryAdd("test2", 2);
         }
     }
 }

@@ -640,7 +640,7 @@ namespace Tests
         {
             return new DrinkCreate
             {
-                Name = RandomData.String,
+                Name = RandomData.UniqueString,
                 Quantity = 11
             };
         }
